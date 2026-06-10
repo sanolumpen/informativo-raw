@@ -102,6 +102,10 @@ def archive_pasquin(text, date_str):
     os.makedirs(ARCHIVO_DIR, exist_ok=True)
     today = datetime.now().strftime("%Y-%m-%d")
     archivo_path = os.path.join(ARCHIVO_DIR, f"{today}.txt")
+    # Also copy to docs/archivo/ for GitHub Pages
+    docs_archivo = os.path.join(DOCS_DIR, "archivo")
+    os.makedirs(docs_archivo, exist_ok=True)
+    shutil.copy2(archivo_path, os.path.join(docs_archivo, f"{today}.txt"))
     with open(archivo_path, "w", encoding="utf-8") as f:
         f.write(text)
     print(f"✓ Archivado: {archivo_path}")
@@ -234,10 +238,13 @@ def update_archive_index():
 </body>
 </html>"""
 
-    archivo_index = os.path.join(ARCHIVO_DIR, "index.html")
-    with open(archivo_index, "w", encoding="utf-8") as f:
-        f.write(html)
-    print(f"✓ Índice de archivo actualizado: {archivo_index}")
+    # Write to both locations
+    for dest in [ARCHIVO_DIR, os.path.join(DOCS_DIR, "archivo")]:
+        os.makedirs(dest, exist_ok=True)
+        archivo_index = os.path.join(dest, "index.html")
+        with open(archivo_index, "w", encoding="utf-8") as f:
+            f.write(html)
+    print(f"✓ Índice de archivo actualizado")
 
 
 def git_push():

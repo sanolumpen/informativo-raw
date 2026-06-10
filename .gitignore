@@ -9,3 +9,6 @@ borrador.txt
 __pycache__/
 *.pyc
 .venv/
+
+# Pages copy of archive (duplicated from archivo/)
+docs/archivo/
