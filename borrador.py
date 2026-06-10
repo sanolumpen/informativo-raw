@@ -33,11 +33,22 @@ MONTHS_ES = [
 ]
 
 # Palabras/claves que indican contenido no-noticia
+# Claves que detectan clima AMBA (se incluye, no se filtra)
+CLIMA_AMBA_PATTERN = re.compile(
+    r"(clima|pronostico|el tiempo|neblinas|lluvias|tormenta|soleado|nubosidad|"
+    r"pronostico del tiempo)",
+    re.I,
+)
+CLIMA_AMBA_ZONA = re.compile(
+    r"\b(AMBA|Buenos Aires|Capital Federal|CABA|Area Metropolitana"
+    r"|CABA|Conurbano|GBA|PBA|provincia de buenos aires)\b",
+    re.I,
+)
+
 JUNK_TITLE_PATTERNS = re.compile(
-    r"^(clima|pronostico|efemeride|escriben hoy|horoscopo|"
+    r"^(efemeride|escriben hoy|horoscopo|"
     r"la palabra del dia|la frase del dia|feliz|"
     r"que paso un dia como hoy|a que hay que estar atentos|"
-    r"el tiempo |neblinas|lluvias|tormenta|soleado|nubosidad|"
     r"\d{1,2} de \w+ de \d{4})",
     re.I,
 )
@@ -52,12 +63,29 @@ def formato_fecha_es(dt: datetime) -> str:
     return f"{wd}, {dt.day} de {MONTHS_ES[dt.month]} de {dt.year}"
 
 
+def es_clima_amba(articulo: dict) -> bool:
+    """Detecta si es un articulo de clima especifico del AMBA."""
+    titulo = (articulo.get("title") or "").strip()
+    preview = (articulo.get("preview") or "").strip()
+    texto = f"{titulo} {preview}"
+    return bool(CLIMA_AMBA_PATTERN.search(texto) and CLIMA_AMBA_ZONA.search(texto))
+
+
 def es_articulo_valido(articulo: dict) -> bool:
     titulo = (articulo.get("title") or "").strip()
     preview = (articulo.get("preview") or "").strip()
     source = articulo.get("source", "").upper()
 
     if not titulo or len(titulo) < JUNK_SHORT_TITLE:
+        return False
+
+    # Clima AMBA: validar y marcar para seccion especial
+    if es_clima_amba(articulo):
+        articulo["_es_clima"] = True
+        return True
+
+    # Clima no-AMBA: filtrar
+    if CLIMA_AMBA_PATTERN.search(titulo):
         return False
 
     if JUNK_TITLE_PATTERNS.match(titulo.lower()):
@@ -89,6 +117,10 @@ def _parse_classification(articulo: dict) -> dict:
 
 def clasificar_articulo(articulo: dict) -> str:
     source = articulo.get("source", "").upper()
+
+    # Clima AMBA va primero
+    if articulo.get("_es_clima"):
+        return "CLIMA"
 
     if source in ZONA_OESTE_SOURCES:
         return "ZONA OESTE"
@@ -187,6 +219,7 @@ def main():
         "ZONA OESTE": [],
         "INTERNACIONALES": [],
         "DEPORTES": [],
+        "CLIMA": [],
         "GENERAL": [],
     }
 
@@ -194,9 +227,13 @@ def main():
         sec = clasificar_articulo(a)
         sections.setdefault(sec, []).append(a)
 
+    # Clima: max 1 articulo
+    if len(sections.get("CLIMA", [])) > 1:
+        sections["CLIMA"] = sections["CLIMA"][:1]
+
     section_order = [
         "NACIONALES", "ZONA OESTE", "INTERNACIONALES",
-        "DEPORTES", "GENERAL",
+        "DEPORTES", "CLIMA", "GENERAL",
     ]
 
     now = datetime.now()
