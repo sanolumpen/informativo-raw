@@ -1,4 +1,11 @@
-Token de Telegram
+# Sensible
+token.txt
+chat_id.txt
+
+# Temp
 borrador.txt
+
+# Python
 __pycache__/
+*.pyc
 .venv/
