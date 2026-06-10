@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Genera un pasquin estilo Opción 6 desde noticias-raw."""
+"""Genera un pasquin Opcion 6 desde noticias-raw.
+Reglas: /pasquin original — NO alucinar, solo datos de la BD."""
 
 import argparse
 import json
@@ -21,28 +22,63 @@ ZONA_OESTE_SOURCES = {
     "ZONANORTE",
 }
 
-ZONA_OESTE_LOCATIONS = {
-    "Morón", "Ituzaingó", "Merlo", "Hurlingham", "Castelar", "Haedo",
-    "Villa Tesei", "Libertad", "El Palomar", "Ramos Mejía", "San Justo",
-    "La Tablada", "Lomas del Mirador", "Villa Luzuriaga", "Rafael Castillo",
-    "González Catán", "Isidro Casanova", "Ciudad Evita", "Tapiales",
-    "Aldo Bonzi",
-}
-
 NON_ARGENTINE_SOURCES = {"AP", "EFE", "REUTERS", "AFP", "DPA", "EUROPAPRESS"}
 
 WEEKDAYS_ES = [
-    "lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo",
+    "lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo",
 ]
-
 MONTHS_ES = [
     "", "enero", "febrero", "marzo", "abril", "mayo", "junio",
     "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre",
 ]
 
+# Palabras/claves que indican contenido no-noticia
+JUNK_TITLE_PATTERNS = re.compile(
+    r"^(clima|pronostico|efemeride|escriben hoy|horoscopo|"
+    r"la palabra del dia|la frase del dia|feliz|"
+    r"que paso un dia como hoy|a que hay que estar atentos|"
+    r"el tiempo |neblinas|lluvias|tormenta|soleado|nubosidad|"
+    r"\d{1,2} de \w+ de \d{4})",
+    re.I,
+)
+# Titulos que son solo listas de nombres (separados por |)
+JUNK_LIST_PATTERN = re.compile(r"\|")
+# Titulos muy cortos sin preview
+JUNK_SHORT_TITLE = 25
 
-def parse_classification(article: dict) -> dict:
-    raw = article.get("classification", "{}")
+
+def formato_fecha_es(dt: datetime) -> str:
+    wd = WEEKDAYS_ES[dt.weekday()]
+    return f"{wd}, {dt.day} de {MONTHS_ES[dt.month]} de {dt.year}"
+
+
+def es_articulo_valido(articulo: dict) -> bool:
+    titulo = (articulo.get("title") or "").strip()
+    preview = (articulo.get("preview") or "").strip()
+    source = articulo.get("source", "").upper()
+
+    if not titulo or len(titulo) < JUNK_SHORT_TITLE:
+        return False
+
+    if JUNK_TITLE_PATTERNS.match(titulo.lower()):
+        return False
+
+    # Listas de nombres (columnistas, firmas) sin preview
+    if not preview and JUNK_LIST_PATTERN.search(titulo):
+        return False
+
+    # EUROPAPRESS: solo politica/conflictos internacionales, no tecnologia/autos/economia
+    if source == "EUROPAPRESS":
+        cls = _parse_classification(articulo)
+        categoria = (cls.get("topic", {}).get("categoria") or "").lower()
+        if not any(k in categoria for k in ["politica", "geopolitica", "conflicto"]):
+            return False
+
+    return True
+
+
+def _parse_classification(articulo: dict) -> dict:
+    raw = articulo.get("classification", "{}")
     if not raw or raw.strip() == "{}":
         return {}
     try:
@@ -51,130 +87,111 @@ def parse_classification(article: dict) -> dict:
         return {}
 
 
-def geo_infer_section(article: dict) -> str | None:
-    source = article.get("source", "").upper()
-    if source in NON_ARGENTINE_SOURCES:
-        return "INTERNACIONALES"
+def clasificar_articulo(articulo: dict) -> str:
+    source = articulo.get("source", "").upper()
+
     if source in ZONA_OESTE_SOURCES:
         return "ZONA OESTE"
-    if source in SOURCES:
-        return "NACIONALES"
-    return None
 
+    if source in NON_ARGENTINE_SOURCES:
+        return "INTERNACIONALES"
 
-def classify_article(article: dict) -> str:
-    cls = parse_classification(article)
-    topic = cls.get("topic", {})
-    categoria = (topic.get("categoria") or "").lower()
+    cls = _parse_classification(articulo)
+    categoria = (cls.get("topic", {}).get("categoria") or "").lower()
     geo = cls.get("geo", {})
-    nivel = (geo.get("nivel") or "").lower()
     partido = (geo.get("partido") or geo.get("localidad") or "").strip()
-    source = article.get("source", "").upper()
 
-    # 1) Deportes siempre primero por tema
     if "deporte" in categoria:
         return "DEPORTES"
 
-    # 2) Zona Oeste por fuente o ubicación
-    if source in ZONA_OESTE_SOURCES or partido in ZONA_OESTE_LOCATIONS:
+    if partido in {
+        "Moron", "Ituzaingo", "Merlo", "Hurlingham", "Castelar", "Haedo",
+        "Villa Tesei", "Libertad", "El Palomar", "Ramos Mejia", "San Justo",
+        "La Tablada", "Lomas del Mirador", "Villa Luzuriaga", "Rafael Castillo",
+        "Gonzalez Catan", "Isidro Casanova", "Ciudad Evita", "Tapiales",
+        "Aldo Bonzi",
+    }:
         return "ZONA OESTE"
 
-    # 3) Fuentes no argentinas → internacionales
-    if source in NON_ARGENTINE_SOURCES:
-        return "INTERNACIONALES"
-
-    # 4) Fuentes argentinas → nacionales
     if source in SOURCES:
         return "NACIONALES"
 
-    # 5) Fallback
     return "GENERAL"
 
 
-def make_headline(title: str, max_len: int = 80) -> str:
-    parts = title.split(":", 1)
-    if len(parts) > 1 and len(parts[0].strip()) <= max_len:
-        return parts[0].strip().upper()
-    return title.strip().upper()
+def formatear_articulo(idx: int, articulo: dict) -> str:
+    titulo = (articulo.get("title") or "").strip()
+    preview = (articulo.get("preview") or "").strip()
+    source = articulo.get("source", "")
 
-
-def truncate_at_word(text: str, max_chars: int) -> str:
-    if len(text) <= max_chars:
-        return text
-    truncated = text[:max_chars]
-    last_space = truncated.rfind(" ")
-    if last_space > max_chars * 0.7:
-        truncated = truncated[:last_space]
-    return truncated.strip()
-
-
-def format_article(idx: int, article: dict) -> str:
-    title = article.get("title", "").strip()
-    preview = (article.get("preview") or "").strip()
-    source = article.get("source", "")
-
-    headline = make_headline(title)
-
-    if preview and len(preview) >= 50:
-        body = truncate_at_word(preview, 250)
-        if not body.endswith((".", "!", "?")):
-            body += "."
-        return f"{idx}) {headline}: {body} ({source})"
+    # Si preview < 100 caracteres, se considera incompleto → solo titulo
+    if preview and len(preview) >= 100:
+        preview = preview.strip()
+        if not preview.endswith((".", "!", "?")):
+            preview += "."
+        return f"{idx}) {titulo}: {preview} ({source})"
     else:
-        return f"{idx}) {headline} ({source})"
+        return f"{idx}) {titulo} ({source})"
 
 
-def format_date_es(dt: datetime) -> str:
-    wd = WEEKDAYS_ES[dt.weekday()]
-    month = MONTHS_ES[dt.month]
-    return f"{wd}, {dt.day} de {month} de {dt.year}"
+def armar_cadena(sections: dict) -> str:
+    """3-4 lineas con hechos clave. Prioriza NACIONALES + INTERNACIONALES."""
+    prioridad = []
+    for sec in ["NACIONALES", "INTERNACIONALES", "ZONA OESTE", "DEPORTES"]:
+        prioridad.extend(sections.get(sec, []))
 
+    headlines = []
+    for a in prioridad:
+        titulo = (a.get("title") or "").strip()
+        # Si el titulo tiene ":", usar la parte de la izquierda
+        partes = [p.strip() for p in titulo.split(":", 1) if p.strip()]
+        hl = partes[0] if len(partes) > 1 else titulo
+        hl = hl.strip().strip("\"'")
+        if hl and 20 < len(hl) < 150:
+            headlines.append(hl)
+            if len(headlines) >= 4:
+                break
 
-def build_cadena(articles: list[dict]) -> str:
-    cadena_lines = []
-    for a in articles[:4]:
-        title = a.get("title", "").strip()
-        preview = (a.get("preview") or "").strip()
-        parts = [p.strip() for p in re.split(r'[.:]', title, maxsplit=1) if p.strip()]
-        short_title = parts[0] if parts else title
-        if preview and len(preview) >= 40:
-            text = truncate_at_word(preview, 130)
-        elif short_title:
-            text = short_title[:130]
-        else:
-            text = title[:130]
-        if not text.endswith((".", "!", "?")):
-            text += "."
-        cadena_lines.append(text)
-    return "\n".join(cadena_lines[:4])
+    if not headlines:
+        return ""
+
+    lines = []
+    for h in headlines:
+        if not h.endswith((".", "!", "?")):
+            h += "."
+        lines.append(h)
+
+    return "\n".join(lines)
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Generar pasquin Opción 6")
+    parser = argparse.ArgumentParser(description="Generar pasquin Opcion 6")
     parser.add_argument(
         "--limit", type=int, default=15,
-        help="Cantidad de artículos (default: 15, max: 30)",
+        help="Cantidad de articulos a procesar (default: 15, max: 30)",
     )
     args = parser.parse_args()
     limit = min(max(args.limit, 1), 30)
 
     store = SqliteStore(DB_PATH)
-    articles = store.get_articles(limit=limit)
+    raw_articles = store.get_articles(limit=limit * 2)
+
+    articles = [a for a in raw_articles if es_articulo_valido(a)][:limit]
 
     if not articles:
-        print("No se encontraron artículos en la base de datos.")
+        print("No se encontraron articulos validos en la base de datos.")
         sys.exit(1)
 
     sections = {
-        "DEPORTES": [],
-        "ZONA OESTE": [],
         "NACIONALES": [],
+        "ZONA OESTE": [],
         "INTERNACIONALES": [],
+        "DEPORTES": [],
         "GENERAL": [],
     }
 
     for a in articles:
-        sec = classify_article(a)
+        sec = clasificar_articulo(a)
         sections.setdefault(sec, []).append(a)
 
     section_order = [
@@ -183,7 +200,7 @@ def main():
     ]
 
     now = datetime.now()
-    date_str = format_date_es(now)
+    date_str = formato_fecha_es(now)
 
     lines = []
     lines.append(f"*INFORMATIVORAW — {date_str}*")
@@ -198,23 +215,24 @@ def main():
         lines.append("")
         for a in sec_articles:
             global_idx += 1
-            lines.append(format_article(global_idx, a))
+            lines.append(formatear_articulo(global_idx, a))
         lines.append("")
 
-    lines.append("*CADENA INFORMATIVA*")
-    lines.append("")
-    cadena = build_cadena(articles)
-    lines.append(cadena)
-    lines.append("")
-    lines.append(
-        "Reproducí esta información. Reenviála y conversala. "
-        "Nueve de cada diez la están esperando."
-    )
-    lines.append("")
+    # Cadena informativa
+    cadena = armar_cadena(sections)
+    if cadena:
+        lines.append("*CADENA INFORMATIVA*")
+        lines.append("")
+        lines.append(cadena)
+        lines.append("")
+        lines.append(
+            "Reproduci esta informacion. Reenviala y conversala. "
+            "Nueve de cada diez la estan esperando."
+        )
+        lines.append("")
+
     lines.append("═══════════════════════════════════════")
-    lines.append(
-        f"InformativoRaw — {date_str} — Fuente: ~/noticias-raw/"
-    )
+    lines.append(f"InformativoRaw — {date_str} — Fuente: ~/noticias-raw/")
     lines.append("")
 
     output = "\n".join(lines)
@@ -223,13 +241,13 @@ def main():
     with open(out_path, "w", encoding="utf-8") as f:
         f.write(output)
 
-    print(f"✓ Pasquin generado: {out_path}")
-    print(f"  Total artículos: {len(articles)}")
+    print(f"* Pasquin generado: {out_path}")
+    print(f"  Total articulos: {len(articles)} ({len(raw_articles) - len(articles)} filtrados)")
     for sec_name in section_order:
         sec_articles = sections.get(sec_name, [])
         if sec_articles:
             ids = [str(a["id"]) for a in sec_articles]
-            print(f"  {sec_name}: {len(sec_articles)} artículos (IDs: {', '.join(ids)})")
+            print(f"  {sec_name}: {len(sec_articles)} articulos (IDs: {', '.join(ids)})")
 
 
 if __name__ == "__main__":
