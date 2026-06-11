@@ -1,0 +1,153 @@
+{
+  "date": "jueves, 11 de junio de 2026",
+  "raw_count": 9,
+  "filtered_count": 0,
+  "total_articles": 9,
+  "section_mode": "specific",
+  "sections": {
+    "GEOPOLITICA": [
+      {
+        "id": 6471,
+        "title": "Jesús Aguirre repetirá como presidente del Parlamento de Andalucía",
+        "preview": "Sevilla, (EFE).- El cordobés Jesús Aguirre repetirá en esta legislatura como presidente del Parlamento de Andalucía al salir elegido este jueves por mayoría simple con los votos de los 53 diputados del PP en el pleno de constitución de la nueva Cámara regional tras las elecciones del 17 de mayo.",
+        "source": "EFE",
+        "url": "https://efe.com/andalucia/2026-06-11/jesus-aguirre-repetira-como-presidente-del-parlamento-de-andalucia/",
+        "category": "andalucia",
+        "published_at": "",
+        "_section_key": "",
+        "_posible_ia": 0.38
+      }
+    ],
+    "NACIONALES": [
+      {
+        "id": 6499,
+        "title": "El Papa bendice la Sagrada Família y reivindica el templo de Gaudí como “faro abierto al Mediterráneo”",
+        "preview": "Sandra Vicente / Pau Rodríguez\n                                     —Barcelona",
+        "source": "ELDIARIOAR",
+        "url": "https://www.eldiarioar.com/mundo/papa-bendice-sagrada-familia-consagra-templo-gaudi-faro-abierto-mediterraneo_1_13292588.html",
+        "category": "",
+        "published_at": "",
+        "_section_key": ""
+      },
+      {
+        "id": 6346,
+        "title": "Conflicto en Medio Oriente",
+        "preview": "Washington bombardeó sistemas de defensa y vigilancia iraníes, mientras Teherán respondió con ataques contra bases estadounidenses en Baréin, Jordania y Kuwait. Irán sostiene que la tregua quedó \"sin efecto en la práctica\".",
+        "source": "ELDESTAPE",
+        "url": "https://www.eldestapeweb.com/internacionales/ee-uu-iran-intercambian-ataques-segundo-dia-consecutivo-pese-alto-fuego-202661165334",
+        "category": "",
+        "published_at": "",
+        "_section_key": "",
+        "_posible_ia": 0.5
+      }
+    ],
+    "ZONA OESTE": [
+      {
+        "id": 6482,
+        "title": "En Buenos Aires, Neuquén presentó la oferta de nieve más amplia del país",
+        "preview": "Con la presencia del gobernadorRolando Figueroa y la ministra de Turismo, Ambiente y Recursos Naturales, Leticia EstevesNeuquén presentó en la Ciudad Autónoma de Buenos Aires la Temporada de Invierno Neuquén 2026.",
+        "source": "VIVIELOESTE",
+        "url": "https://vivieloeste.com.ar/noticias/2026/06/11/81318-en-buenos-aires-neuquen-presento-la-oferta-de-nieve-mas-amplia-del-pais",
+        "category": "",
+        "published_at": "",
+        "_section_key": "",
+        "_posible_ia": 0.33,
+        "_cobertura_extra": [
+          "NA",
+          "INFOBAE",
+          "LANACION",
+          "PERFIL",
+          "AMBITO",
+          "CRONICA",
+          "C5N",
+          "LETRAP",
+          "BAENEGOCIOS",
+          "CLARIN",
+          "ZONANORTE",
+          "EUROPAPRESS",
+          "ANSOL",
+          "DIOESTE",
+          "ELDESTAPE",
+          "LACIUDAD",
+          "PRIMPLANO"
+        ]
+      },
+      {
+        "id": 6382,
+        "title": "Señales de ausencias eternas: Martín Marinucci abrió el V Congreso Nacional de Seguridad Vial",
+        "preview": "“Si no cambiamos la conciencia vamos a seguir teniendo irresponsables conduciendo”, afirmó el ministro de Transporte bonaerense. La actividad reúne a integrantes de la fundación Estrellas Amarillas, familiares de víctimas de siniestros viales, funcionarios, especialistas y organizaciones de todo el país.",
+        "source": "PRIMPLANO",
+        "url": "https://primerplanoonline.com.ar/senales-de-ausencias-eternas-martin-marinucci-abrio-el-v-congreso-nacional-de-seguridad-vial/",
+        "category": "",
+        "published_at": "",
+        "_section_key": "",
+        "_posible_ia": 0.33,
+        "_cobertura_extra": [
+          "NA",
+          "INFOBAE",
+          "PERFIL",
+          "ZONANORTE",
+          "AMBITO",
+          "LANACION",
+          "CLARIN",
+          "CRONICA",
+          "EUROPAPRESS",
+          "PAGINA12",
+          "PRENSALATINA",
+          "C5N",
+          "ELMEGAFONO",
+          "VIVIELOESTE",
+          "BAENEGOCIOS",
+          "EFE",
+          "ELDESTAPE",
+          "ANDIGITAL",
+          "ANSOL",
+          "NODAL",
+          "TIERRAVIVA",
+          "ANTICIPOS",
+          "ELDIARIOAR",
+          "LETRAP",
+          "TIEMPOAR"
+        ]
+      }
+    ],
+    "INTERNACIONALES": [
+      {
+        "id": 6468,
+        "title": "Too sick to work, but can they prove it? New Medicaid rule worries patients",
+        "preview": "A woman uses a walker as she exits an assisted living building, July 4, 2025, in Boca Raton, Fla. (AP Photo/Rebecca Blackwell, File)",
+        "source": "AP",
+        "url": "https://apnews.com/article/medicaid-eligibility-medical-frailty-trump-oz-cms-7104d2f6a0cd44c58978ba20968f04c7",
+        "category": "",
+        "published_at": "",
+        "_section_key": "",
+        "_posible_ia": 0.38
+      }
+    ],
+    "DEPORTES": [
+      {
+        "id": 6462,
+        "title": "Juventus avanza por Dibu Martínez y Aston Villa analiza una oferta millonariaEl arquero argentino campeón del mundo aparece en el radar del gigante italiano, que busca reforzar un puesto clave para la próxima temporada.No disponible sin conexión",
+        "preview": "Buenos Aires, 11 junio (NA)--Juventus intensificó las gestiones para incorporar a Emiliano “Dibu” Martínezy ya analiza junto a Aston Villa las condiciones de una operación que podría convertirse en uno de los movimientos más importantes del mercado europeo.El arquero argentino, figura de la Selección campeona del mundo en Qatar 2022, es uno de los principales objetivos del conjunto de Turín para reforzar su plantel de cara a la próxima temporada, en la que buscará recuperar protagonismo tanto en",
+        "source": "NA",
+        "url": "https://noticiasargentinas.com/deportes/juventus-avanza-por-dibu-martinez-y-aston-villa-analiza-una-oferta-millonaria_a6a2a90bfd3cd8e549945f91f",
+        "category": "deportes",
+        "published_at": "",
+        "_section_key": ""
+      }
+    ],
+    "CLIMA": [
+      {
+        "id": 6514,
+        "title": "Clima en el AMBA: el pronóstico para este jueves 11 de junio",
+        "preview": "El Servicio Meteorológico Nacional (SMN) pronosticó que estejueves en la Ciudadel cielo seguirá nublado, con neblina y temperaturas de entre 12 y 17 grados, con viento del sudoeste.",
+        "source": "CRONICA",
+        "url": "https://www.cronica.com.ar/fmq/noticias-locales/clima-en-el-amba-el-pronostico-para-este-jueves-11-de-junio-14/",
+        "category": "",
+        "published_at": "",
+        "_section_key": "",
+        "_es_clima": true
+      }
+    ]
+  }
+}

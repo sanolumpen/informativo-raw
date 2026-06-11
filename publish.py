@@ -54,21 +54,53 @@ def save_chat_id(chat_id: str):
     print(f"chat_id guardado: {chat_id}")
 
 
+def split_message(text, max_len=4000):
+    """Divide un texto en chunks que no superen max_len caracteres."""
+    lines = text.split("\n")
+    chunks = []
+    current = ""
+    for line in lines:
+        if len(line) > max_len:
+            if current:
+                chunks.append(current)
+                current = ""
+            for i in range(0, len(line), max_len):
+                chunks.append(line[i:i+max_len])
+            continue
+        if current and len(current) + len(line) + 1 > max_len:
+            chunks.append(current)
+            current = line
+        elif current:
+            current += "\n" + line
+        else:
+            current = line
+    if current:
+        chunks.append(current)
+    return chunks
+
+
 def send_telegram(token, chat_id, text):
     import requests
+    chunks = split_message(text)
     url = f"https://api.telegram.org/bot{token}/sendMessage"
-    payload = {
-        "chat_id": chat_id,
-        "text": text,
-        "parse_mode": "Markdown",
-        "disable_web_page_preview": True,
-    }
-    resp = requests.post(url, json=payload, timeout=30)
-    data = resp.json()
-    if not data.get("ok"):
-        print(f"ERROR Telegram: {data.get('description', 'error desconocido')}")
-        return False
-    print(f"✓ Publicado en Telegram (chat_id: {chat_id})")
+
+    for i, chunk in enumerate(chunks):
+        payload = {
+            "chat_id": chat_id,
+            "text": chunk,
+            "parse_mode": "Markdown",
+            "disable_web_page_preview": True,
+        }
+        resp = requests.post(url, json=payload, timeout=30)
+        data = resp.json()
+        if not data.get("ok"):
+            print(f"ERROR Telegram (chunk {i+1}/{len(chunks)}): {data.get('description', 'error desconocido')}")
+            return False
+
+    if len(chunks) > 1:
+        print(f"✓ Publicado en Telegram ({len(chunks)} mensajes, chat_id: {chat_id})")
+    else:
+        print(f"✓ Publicado en Telegram (chat_id: {chat_id})")
     return True
 
 
@@ -279,7 +311,7 @@ def main():
     # --- 1) Leer borrador ---
     if not os.path.exists(BORRADOR_PATH):
         print("ERROR: No se encuentra borrador.txt")
-        print("Primero generalo con: python3 borrador.py")
+        print("Primero generalo con: /pasquin --save")
         sys.exit(1)
 
     with open(BORRADOR_PATH, "r", encoding="utf-8") as f:

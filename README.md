@@ -1,19 +1,31 @@
-# InformativoRaw — Pasquin Opción 6
+# InformativoRaw
 
-Genera y publica un pasquin de noticias en formato Opción 6 (solo texto, 
-compatible con WhatsApp y Telegram).
+Genera y publica un pasquin de noticias en formato Telegram.
 
 ## Flujo de trabajo
 
 ```bash
-# 1. Generar borrador desde la base de noticias-raw
-python3 borrador.py --limit 15
+# 1. Generar + formatear pasquin desde la base de noticias-raw
+python3 ../noticias-raw/pasquin_data.py --limit 15 --json --section-names specific \
+  | python3 formatear_pasquin.py > borrador.txt
 
 # 2. EDITAR borrador.txt con tu editor (curar, reordenar, ajustar)
 
 # 3. Publicar a Telegram + archivar + GitHub Pages
 python3 publish.py
 ```
+
+## Formateador (`formatear_pasquin.py`)
+
+Toma el JSON de `pasquin_data.py --json` y produce texto Telegram listo para publicar:
+
+- Header + fecha
+- Cadena de titulares (4 headlines)
+- Secciones con emojis: 🌎 🇦🇷 📍 ✅ 🌤️
+- Artículos numerados con 🔹
+- Detección IA (🤖), propaganda (⚠️), chequeado (✅❌)
+- Siempre incluye FUENTES y link al canal
+- Auto-truncado a 4096 chars (retrocede previews hasta que entre)
 
 ## Canales
 
