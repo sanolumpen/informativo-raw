@@ -14,11 +14,11 @@ TELEGRAM_MAX = 4096
 CANAL_LINK = "t.me/+yzn1KN3WYsFjNTRh"
 
 SECTION_EMOJIS = {
-    "GEOPOLITICA": "\U0001f30e",
     "NACIONALES": "\U0001f1e6\U0001f1f7",
+    "PROVINCIAL_AMBA": "\U0001f4cd",
+    "INTERNACIONALES": "\U0001f310",
     "ZONA OESTE": "\U0001f4cd",
     "LOCALES": "\U0001f4cd",
-    "INTERNACIONALES": "\U0001f310",
     "DEPORTES": "\u26bd",
     "VERIFICACION": "\u2705",
     "CLIMA": "\U0001f324\ufe0f",
@@ -26,8 +26,9 @@ SECTION_EMOJIS = {
 }
 
 SECTION_ORDER = [
-    "GEOPOLITICA", "NACIONALES", "ZONA OESTE", "LOCALES",
-    "INTERNACIONALES", "DEPORTES", "VERIFICACION", "CLIMA", "GENERAL",
+    "NACIONALES", "PROVINCIAL_AMBA", "INTERNACIONALES",
+    "ZONA OESTE", "LOCALES", "DEPORTES", "VERIFICACION",
+    "CLIMA", "GENERAL",
 ]
 
 FOOTER = f"\n\U0001f4e2 Canal: {CANAL_LINK}"
@@ -61,10 +62,30 @@ def _format_fecha(dt: datetime) -> str:
     return f"{_dia_semana(dt)} {dt.day}/{dt.month}/{dt.year}"
 
 
+def _claves_seccion(data: dict) -> dict[str, str]:
+    """Mapea claves internas a claves reales del JSON (display names)."""
+    m = {}
+    for k in ["NACIONALES", "PROVINCIAL_AMBA", "INTERNACIONALES",
+              "ZONA OESTE", "LOCALES", "DEPORTES", "VERIFICACION",
+              "CLIMA", "GENERAL"]:
+        if k in data.get("sections", {}):
+            m[k] = k
+        else:
+            # Buscar por display name
+            for dk in data.get("sections", {}):
+                if dk.replace(" / ", "_").upper().replace(" ", "_") == k:
+                    m[k] = dk
+                    break
+            if k not in m:
+                m[k] = k
+    return m
+
+
 def _generar_cadena(data: dict) -> str:
     partes = []
-    for sec in ["GEOPOLITICA", "NACIONALES", "LOCALES", "ZONA OESTE", "INTERNACIONALES", "VERIFICACION"]:
-        for a in data.get("sections", {}).get(sec, [])[:2]:
+    claves = _claves_seccion(data)
+    for sec in ["NACIONALES", "PROVINCIAL_AMBA", "INTERNACIONALES", "ZONA OESTE", "VERIFICACION"]:
+        for a in data.get("sections", {}).get(claves[sec], [])[:2]:
             t = (a.get("title") or "").strip()
             t = t.split(":", 1)[0] if ":" in t else t
             t = t.strip("\"'")
@@ -83,17 +104,16 @@ def formatear(data: dict) -> str:
 
     header = f"\U0001f4f0 INFORMATIVORAW \u2014 {_format_fecha(now)}"
     cadena = _generar_cadena(data)
-    cadena_block = f"\U0001f4e2 CADENA: {cadena} \u2014 reenvi\u00e1 esta informaci\u00f3n." if cadena else ""
+    cadena_block = f"\U0001f4e2 CADENA: {cadena}" if cadena else ""
 
     items = []
     source_set = set()
     tiene_deportes_arg = False
     seen_sections: set[str] = set()
+    claves = _claves_seccion(data)
 
     for sec in SECTION_ORDER:
-        sec_real = sec
-        if sec == "LOCALES" and "LOCALES" not in data.get("sections", {}):
-            sec_real = "ZONA OESTE"
+        sec_real = claves.get(sec, sec)
         if sec_real in seen_sections:
             continue
         seen_sections.add(sec_real)
@@ -113,7 +133,7 @@ def formatear(data: dict) -> str:
 
         items.append(("section", sec, sec_real, articulos))
 
-    clima_arts = data.get("sections", {}).get("CLIMA", [])
+    clima_arts = data.get("sections", {}).get(claves.get("CLIMA", "CLIMA"), [])
     clima_line = ""
     if clima_arts:
         clima = clima_arts[0]
@@ -123,7 +143,7 @@ def formatear(data: dict) -> str:
         if clima_line:
             source_set.add(clima.get("source", "").upper())
 
-    max_preview = 180
+    max_preview = 280
     while True:
         lines = []
         source_set.clear()
@@ -155,6 +175,7 @@ def formatear(data: dict) -> str:
                     continue
                 count += 1
                 title = (a.get("title") or "").strip().upper()
+                title = _truncar(title, 120)
                 preview = (a.get("preview") or "").strip()
                 is_note = a.get("_note", False)
                 markers = _markers(a) if not is_note else ""
@@ -168,12 +189,6 @@ def formatear(data: dict) -> str:
                     pl = _truncar(preview, max_preview)
                     item_len += len(pl) + 1
 
-                cobertura = a.get("_cobertura_extra")
-                cobertura_line = ""
-                if cobertura:
-                    cobertura_line = f"\U0001f4e1 También en: {', '.join(sorted(cobertura))}"
-                    item_len += len(cobertura_line) + 1
-
                 item_len += 1
 
                 if total + sec_len + item_len >= TELEGRAM_MAX - 200:
@@ -186,9 +201,6 @@ def formatear(data: dict) -> str:
                 if pl:
                     sec_lines.append(pl)
                     sec_len += len(pl) + 1
-                if cobertura_line:
-                    sec_lines.append(cobertura_line)
-                    sec_len += len(cobertura_line) + 1
                 sec_lines.append("")
                 sec_len += 1
                 added = True

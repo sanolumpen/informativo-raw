@@ -1,152 +1,131 @@
 {
-  "date": "jueves, 11 de junio de 2026",
-  "raw_count": 9,
-  "filtered_count": 0,
-  "total_articles": 9,
+  "date": "sabado, 13 de junio de 2026",
+  "raw_count": 15,
+  "filtered_count": 4,
+  "total_articles": 11,
   "section_mode": "specific",
   "sections": {
-    "GEOPOLITICA": [
-      {
-        "id": 6471,
-        "title": "Jesús Aguirre repetirá como presidente del Parlamento de Andalucía",
-        "preview": "Sevilla, (EFE).- El cordobés Jesús Aguirre repetirá en esta legislatura como presidente del Parlamento de Andalucía al salir elegido este jueves por mayoría simple con los votos de los 53 diputados del PP en el pleno de constitución de la nueva Cámara regional tras las elecciones del 17 de mayo.",
-        "source": "EFE",
-        "url": "https://efe.com/andalucia/2026-06-11/jesus-aguirre-repetira-como-presidente-del-parlamento-de-andalucia/",
-        "category": "andalucia",
-        "published_at": "",
-        "_section_key": "",
-        "_posible_ia": 0.38
-      }
-    ],
     "NACIONALES": [
       {
-        "id": 6499,
-        "title": "El Papa bendice la Sagrada Família y reivindica el templo de Gaudí como “faro abierto al Mediterráneo”",
-        "preview": "Sandra Vicente / Pau Rodríguez\n                                     —Barcelona",
-        "source": "ELDIARIOAR",
-        "url": "https://www.eldiarioar.com/mundo/papa-bendice-sagrada-familia-consagra-templo-gaudi-faro-abierto-mediterraneo_1_13292588.html",
+        "id": 10068,
+        "title": "Adorni omitió presentar el anexo con el patrimonio de su esposa en su declaración jurada",
+        "preview": "La situación patrimonial del jefe de Gabinete, Manuel Adorni , sumó un nuevo capítulo de controversia en los tribunales, ya que en el marco de la investigación que se sigue en su contra por presunto enriquecimiento ilícito, la Oficina Anticorrupción (OA) remitió a la Justicia la nueva presentación patrimonial del funcionario (correspondiente al período 2025), junto con las declaraciones rectificativas de los dos años anteriores.",
+        "source": "CRONICA",
+        "url": "https://www.cronica.com.ar/politica/adorni-omitio-presentar-el-anexo-con-el-patrimonio-de-su-esposa-en-su-declaracion-jurada/",
         "category": "",
         "published_at": "",
         "_section_key": ""
       },
       {
-        "id": 6346,
-        "title": "Conflicto en Medio Oriente",
-        "preview": "Washington bombardeó sistemas de defensa y vigilancia iraníes, mientras Teherán respondió con ataques contra bases estadounidenses en Baréin, Jordania y Kuwait. Irán sostiene que la tregua quedó \"sin efecto en la práctica\".",
-        "source": "ELDESTAPE",
-        "url": "https://www.eldestapeweb.com/internacionales/ee-uu-iran-intercambian-ataques-segundo-dia-consecutivo-pese-alto-fuego-202661165334",
+        "id": 10025,
+        "title": "Repercusiones del caso Adorni.La publicación de Elisa Carrió sobre el Gobierno y la corrupción",
+        "preview": "La referente de la Coalición Cívica Elisa Carrió se hizo eco este viernes del escándalo que pesa sobre el Gobierno por el caso del jefe de Gabinete, Manuel Adorni , y acusó a la administración de Javier Milei de “tomarle el pelo a los argentinos y a las Fuerzas Armadas”.",
+        "source": "LANACION",
+        "url": "https://www.lanacion.com.ar/politica/la-publicacion-de-elisa-carrio-sobre-el-gobierno-y-la-corrupcion-dios-nos-salve-del-mal-nid12062026/",
         "category": "",
         "published_at": "",
-        "_section_key": "",
-        "_posible_ia": 0.5
+        "_section_key": ""
       }
     ],
-    "ZONA OESTE": [
+    "PROVINCIAL / AMBA": [
       {
-        "id": 6482,
-        "title": "En Buenos Aires, Neuquén presentó la oferta de nieve más amplia del país",
-        "preview": "Con la presencia del gobernadorRolando Figueroa y la ministra de Turismo, Ambiente y Recursos Naturales, Leticia EstevesNeuquén presentó en la Ciudad Autónoma de Buenos Aires la Temporada de Invierno Neuquén 2026.",
-        "source": "VIVIELOESTE",
-        "url": "https://vivieloeste.com.ar/noticias/2026/06/11/81318-en-buenos-aires-neuquen-presento-la-oferta-de-nieve-mas-amplia-del-pais",
+        "id": 10019,
+        "title": "\"Ataque rápido y letal\".Trump anunció que EE.UU. eliminó al líder del Tren de Aragua en un operativo en Venezuela",
+        "preview": "WASHINGTON.- El presidente norteamericano, Donald Trump , anunció este viernes por la noche que Estados Unidos eliminó al líder del Tren de Aragua -catalogado por la Casa Blanca como una organización terrorista- mediante un “ataque rápido y letal” del Comando Sur en Venezuela en coordinación con el gobierno de Delcy Rodríguez",
+        "source": "LANACION",
+        "url": "https://www.lanacion.com.ar/el-mundo/donald-trump-anuncio-que-estados-unidos-elimino-al-lider-del-tren-de-aragua-tras-un-preciso-ataque-nid12062026/",
         "category": "",
         "published_at": "",
-        "_section_key": "",
-        "_posible_ia": 0.33,
-        "_cobertura_extra": [
-          "NA",
-          "INFOBAE",
-          "LANACION",
-          "PERFIL",
-          "AMBITO",
-          "CRONICA",
-          "C5N",
-          "LETRAP",
-          "BAENEGOCIOS",
-          "CLARIN",
-          "ZONANORTE",
-          "EUROPAPRESS",
-          "ANSOL",
-          "DIOESTE",
-          "ELDESTAPE",
-          "LACIUDAD",
-          "PRIMPLANO"
-        ]
-      },
-      {
-        "id": 6382,
-        "title": "Señales de ausencias eternas: Martín Marinucci abrió el V Congreso Nacional de Seguridad Vial",
-        "preview": "“Si no cambiamos la conciencia vamos a seguir teniendo irresponsables conduciendo”, afirmó el ministro de Transporte bonaerense. La actividad reúne a integrantes de la fundación Estrellas Amarillas, familiares de víctimas de siniestros viales, funcionarios, especialistas y organizaciones de todo el país.",
-        "source": "PRIMPLANO",
-        "url": "https://primerplanoonline.com.ar/senales-de-ausencias-eternas-martin-marinucci-abrio-el-v-congreso-nacional-de-seguridad-vial/",
-        "category": "",
-        "published_at": "",
-        "_section_key": "",
-        "_posible_ia": 0.33,
-        "_cobertura_extra": [
-          "NA",
-          "INFOBAE",
-          "PERFIL",
-          "ZONANORTE",
-          "AMBITO",
-          "LANACION",
-          "CLARIN",
-          "CRONICA",
-          "EUROPAPRESS",
-          "PAGINA12",
-          "PRENSALATINA",
-          "C5N",
-          "ELMEGAFONO",
-          "VIVIELOESTE",
-          "BAENEGOCIOS",
-          "EFE",
-          "ELDESTAPE",
-          "ANDIGITAL",
-          "ANSOL",
-          "NODAL",
-          "TIERRAVIVA",
-          "ANTICIPOS",
-          "ELDIARIOAR",
-          "LETRAP",
-          "TIEMPOAR"
-        ]
+        "_section_key": ""
       }
     ],
     "INTERNACIONALES": [
       {
-        "id": 6468,
-        "title": "Too sick to work, but can they prove it? New Medicaid rule worries patients",
-        "preview": "A woman uses a walker as she exits an assisted living building, July 4, 2025, in Boca Raton, Fla. (AP Photo/Rebecca Blackwell, File)",
-        "source": "AP",
-        "url": "https://apnews.com/article/medicaid-eligibility-medical-frailty-trump-oz-cms-7104d2f6a0cd44c58978ba20968f04c7",
+        "id": 10341,
+        "title": "Iranian foreign affairs minister says Strait of Hormuz will not return to pre-war status",
+        "preview": "Iranian foreign affairs minister says Strait of Hormuz will not return to pre-war status\n\n    \n    \n\n        \n    \n                Iranian Minister of Foreign Affairs Abbas Araghchi says the Strait of Hormuz has become one of Tehran’s “most important deterrent tools”, warning that the strategic waterway will not return to its pre-war status.\n\nAraghchi said the administration of the Strait of Hormuz would no longer operate as it did before the war, adding that the waterway falls “under the sovere",
+        "source": "MIDDLEEASTEYE",
+        "url": "https://www.middleeasteye.net/live-blog/live-blog-update/iranian-foreign-minister-says-strait-hormuz-will-not-return-pre-war",
         "category": "",
-        "published_at": "",
-        "_section_key": "",
-        "_posible_ia": 0.38
-      }
-    ],
-    "DEPORTES": [
+        "published_at": "2026-06-12 21:11:56",
+        "_section_key": ""
+      },
       {
-        "id": 6462,
-        "title": "Juventus avanza por Dibu Martínez y Aston Villa analiza una oferta millonariaEl arquero argentino campeón del mundo aparece en el radar del gigante italiano, que busca reforzar un puesto clave para la próxima temporada.No disponible sin conexión",
-        "preview": "Buenos Aires, 11 junio (NA)--Juventus intensificó las gestiones para incorporar a Emiliano “Dibu” Martínezy ya analiza junto a Aston Villa las condiciones de una operación que podría convertirse en uno de los movimientos más importantes del mercado europeo.El arquero argentino, figura de la Selección campeona del mundo en Qatar 2022, es uno de los principales objetivos del conjunto de Turín para reforzar su plantel de cara a la próxima temporada, en la que buscará recuperar protagonismo tanto en",
-        "source": "NA",
-        "url": "https://noticiasargentinas.com/deportes/juventus-avanza-por-dibu-martinez-y-aston-villa-analiza-una-oferta-millonaria_a6a2a90bfd3cd8e549945f91f",
-        "category": "deportes",
+        "id": 10089,
+        "title": "Indignación en India por muerte de marineros tras ataque de EE. UU. contra petrolero",
+        "preview": "Tres marineros indios murieron en un ataque estadounidense contra un petrolero comercial, agravando la tensión entre India y Estados Unidos y despertando indignación. La embarcación había sido atacada en Omán como parte de las operaciones para imponer un bloqueo al transporte marítimo relacionado con Irán. Nueva Delhi exigió el fin de los ataques contra buques mercantes en la región, mientras el primer ministro indio, Narendra Modi, tiene previsto mantener conversaciones directas con el presiden",
+        "source": "FRANCE24",
+        "url": "https://www.france24.com/es/video/20260613-indignaci%C3%B3n-en-india-por-muerte-de-marineros-tras-ataque-de-ee-uu-contra-petrolero",
+        "category": "",
+        "published_at": "2026-06-13 02:16:17",
+        "_section_key": "",
+        "_posible_ia": 0.5,
+        "_femicidio": true
+      },
+      {
+        "id": 10086,
+        "title": "Irán y EE. UU. tienen choque de versiones sobre el \"acuerdo de paz definitivo\"",
+        "preview": "Irán y Estados Unidos ya cuentan con \"un texto definitivo y consensuado del acuerdo de paz\", según afirmó el mediador, Pakistán. Sin embargo, mientras Trump asegura que se trata del \"fin de la guerra\", Irán sostiene que es apenas un \"acuerdo preliminar\". Según Teherán, en esta primera etapa se acordaría un cese al fuego total y la reapertura del estrecho de Ormuz, mientras que los temas relacionados con el programa nuclear iraní pasarían a una segunda fase de negociación. En France 24 te contamo",
+        "source": "FRANCE24",
+        "url": "https://www.france24.com/es/video/20260613-ir%C3%A1n-y-ee-uu-tienen-choque-de-versiones-sobre-el-acuerdo-de-paz-definitivo",
+        "category": "",
+        "published_at": "2026-06-13 02:19:49",
+        "_section_key": ""
+      },
+      {
+        "id": 10037,
+        "title": "Caso Adorni: el fiscal Pollicita solicitó nuevas medidas de prueba y analiza ampliar la causa",
+        "preview": "La Justicia ordenó un relevamiento a ARCA, ANSES y la billetera Lemon Cash para obtener información patrimonial del jefe de Gabinete. Además, con los nuevos datos se podría extender el período de análisis.",
+        "source": "C5N",
+        "url": "https://www.c5n.com/politica/caso-manuel-adorni-el-fiscal-pollicita-solicito-nuevas-medidas-prueba-y-analiza-ampliar-la-causa-n240634",
+        "category": "",
         "published_at": "",
         "_section_key": ""
       }
     ],
-    "CLIMA": [
+    "ZONA OESTE": [
       {
-        "id": 6514,
-        "title": "Clima en el AMBA: el pronóstico para este jueves 11 de junio",
-        "preview": "El Servicio Meteorológico Nacional (SMN) pronosticó que estejueves en la Ciudadel cielo seguirá nublado, con neblina y temperaturas de entre 12 y 17 grados, con viento del sudoeste.",
-        "source": "CRONICA",
-        "url": "https://www.cronica.com.ar/fmq/noticias-locales/clima-en-el-amba-el-pronostico-para-este-jueves-11-de-junio-14/",
+        "id": 9997,
+        "title": "Pablo Descalzo supervisó el avance de la nueva Plaza 20 de Febrero en el centro de Ituzaingó que ya cobra forma",
+        "preview": "El intendente recorrió la obra junto al equipo de Planificación, Desarrollo Urbano y Ambiente. El proyecto incluye nuevos espacios verdes, juegos infantiles, un anfiteatro y un estacionamiento subterráneo para 380 vehículos.",
+        "source": "ANTICIPOS",
+        "url": "https://diarioanticipos.com/2026/06/12/pablo-descalzo-superviso-el-avance-de-la-nueva-plaza-20-de-febrero-en-el-centro-de-ituzaingo-que-ya-cobra-forma/",
+        "category": "",
+        "published_at": "",
+        "_section_key": ""
+      },
+      {
+        "id": 9996,
+        "title": "Deportivo Morón visita el sábado a Ciudad de Bolívar en un duelo clave por la pelea de arriba",
+        "preview": "Morón visita a Ciudad de Bolívar en un duelo clave para seguir prendido en la pelea por los primeros puestos de la Primera Nacional.",
+        "source": "ANTICIPOS",
+        "url": "https://diarioanticipos.com/2026/06/12/deportivo-moron-visita-el-sabado-a-ciudad-de-bolivar-en-un-duelo-clave-por-la-pelea-de-arriba/",
+        "category": "",
+        "published_at": "",
+        "_section_key": ""
+      }
+    ],
+    "DEPORTES": [
+      {
+        "id": 10085,
+        "title": "Pampas derrotó a Capibaras y clasificó a la final del Súper Rugby AméricasLa franquicia de Buenos Aires se enfrentará a Dogos XV, que venció 35-13 a Tarucas.No disponible sin conexión",
+        "preview": "Buenos Aires, 12 junio (NA) -- Pampas avanzó a la final del Súper Rugby Américas después de vencer por 19 a 11 a Capibaras en San Isidro y se medirá con Dogos en Córdoba el próximo viernes 19 de junio. Con un try de Lucas Marguery a los 56 minutos y cinco penales de Estanislao Renthel a los 15, a los 23, a los 35 y a los 68, además de la conversión post try, Pampas dejó en el camino un gran escollo pero saldrá de Buenos Aires para buscar el título en la ciudad de Córdoba ante el mejor equipo de",
+        "source": "NA",
+        "url": "https://noticiasargentinas.com/deportes/pampas-derroto-a-capibaras-y-clasifico-a-la-final-del-super-rugby-americas_a6a2cbd4ad3cd8e5499707088",
+        "category": "deportes",
+        "published_at": "",
+        "_section_key": ""
+      },
+      {
+        "id": 10062,
+        "title": "Día 20: crónica del secuestro de las y los voluntarios de la misión humanitaria a Gaza",
+        "preview": "12 de junio de 2026. A veinte días del secuestro de las y los diez integrantes del convoy terrestre Global Sumud Maghreb Libia oriental, familiares, organizaciones de derechos humanos, sindicatos, legisladores, organismos internacionales y representaciones diplomáticas de distintos países continúan reclamando información verificable sobre su situación, acceso humanitario independiente y su inmediata liberación.",
+        "source": "NODAL",
+        "url": "https://www.nodal.am/2026/06/dia-20-cronica-del-secuestro-de-los-y-las-voluntarios-de-la-mision-humanitaria-a-gaza/",
         "category": "",
         "published_at": "",
         "_section_key": "",
-        "_es_clima": true
+        "_posible_ia": 0.5
       }
     ]
   }

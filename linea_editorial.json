@@ -1,0 +1,132 @@
+{
+  "_version": "1.0",
+  "_nota": "Reglas editoriales para el pasquin INFORMATIVORAW. Editar este archivo para cambiar criterios sin tocar código.",
+  "secciones": {
+    "NACIONALES": {
+      "prioridad": 1,
+      "descripcion": "Noticias de alcance nacional argentino",
+      "incluir": [
+        "decisiones del gobierno nacional (decretos, leyes, medidas económicas)",
+        "política nacional: ejecutivo, legislativo, judicial",
+        "política económica: presupuesto, deuda, inflación, dólar, tipo de cambio",
+        "juicios políticos y judiciales de relevancia nacional",
+        "conflictos sociales de escala nacional (paros, marchas)",
+        "elecciones y campañas nacionales",
+        "medidas con impacto directo en PBA/AMBA"
+      ],
+      "fuentes_prioritarias": ["NA", "CLARIN", "PAGINA12", "LANACION", "ELDESTAPE", "TIEMPOAR", "CRONICA", "C5N", "PERFIL", "AMBITO", "BAENEGOCIOS", "INFONEWS", "ANRED", "TIERRAVIVA"]
+    },
+    "PROVINCIAL_AMBA": {
+      "prioridad": 2,
+      "descripcion": "Noticias de la Provincia de Buenos Aires y AMBA en general (sin especificar zona)",
+      "incluir": [
+        "decisiones del gobierno de la Provincia de Buenos Aires",
+        "política del conurbano bonaerense sin especificar partido",
+        "seguridad e infraestructura del AMBA",
+        "transporte público del AMBA (trenes, colectivos, subte)",
+        "salud y educación en PBA",
+        "medidas del gobierno nacional que impactan específicamente en PBA",
+        "obras públicas provinciales"
+      ],
+      "keywords": [
+        "provincia de buenos aires", "gobierno bonaerense", "kicillof",
+        "amba", "conurbano", "la plata", "ruta provincial",
+        "colectivo", "tren", "subte", "general paz", "riccheri",
+        "avenida", "au7", "panamericana", "metropolitano"
+      ]
+    },
+    "INTERNACIONALES": {
+      "prioridad": 3,
+      "descripcion": "Política y economía internacional relevante (fusión de la antigua GEOPOLITICA)",
+      "incluir": [
+        "conflictos armados, guerras y ataques militares",
+        "relaciones entre potencias (USA, China, Rusia, UE, OTAN)",
+        "crisis económicas globales y decisiones de organismos internacionales",
+        "política latinoamericana (elecciones presidenciales, crisis políticas)",
+        "cambio climático y acuerdos globales",
+        "decisiones de ONU, FMI, Banco Mundial, OMS"
+      ],
+      "excluir": [
+        "política regional de países no-latinoamericanos (elecciones autonómicas,regional)",
+        "elecciones municipales o regionales de otros países",
+        "sucesos domésticos sin impacto global",
+        "deportes internacionales sin participación argentina",
+        "cultura internacional sin conexión con Argentina",
+        "noticias de celebridades internacionales sin relevancia política"
+      ],
+      "paises_relevantes": [
+        "argentina", "brasil", "chile", "uruguay", "peru", "bolivia",
+        "paraguay", "venezuela", "colombia", "ecuador", "mexico", "cuba",
+        "eeuu", "estados unidos", "rusia", "ucrania", "china",
+        "iran", "israel", "palestina", "gaza",
+        "europa", "union europea", "otan",
+        "latinoamerica", "america latina",
+        "onu", "fmi", "banco mundial"
+      ],
+      "fuentes": ["AP", "EFE", "PRENSALATINA", "EUROPAPRESS", "NODAL"]
+    },
+    "ZONA_OESTE": {
+      "prioridad": 4,
+      "descripcion": "Noticias hiperlocales de la Zona Oeste del Conurbano Bonaerense",
+      "nota": "Hiperlocal — no forzar si no hay noticias relevantes ese día. Solo incluir si menciona explícitamente un partido o localidad de ZO.",
+      "partidos": [
+        "Moron", "Ituzaingo", "Hurlingham", "Merlo", "Moreno",
+        "Tres de Febrero", "La Matanza", "General Rodriguez", "Marcos Paz"
+      ],
+      "localidades": [
+        "Moron", "Castelar", "Haedo", "Villa Sarmiento", "El Palomar",
+        "Ituzaingo", "Hurlingham", "Villa Tesei", "William C. Morris",
+        "Merlo", "Pontevedra", "San Antonio de Padua",
+        "Moreno", "Paso del Rey", "La Reja",
+        "Caseros", "Ciudadela", "El Libertador",
+        "San Justo", "Ramos Mejia", "Lomas del Mirador",
+        "Gonzalez Catan", "Isidro Casanova", "Ciudad Evita",
+        "Rafael Castillo", "La Tablada", "Villa Luzuriaga",
+        "Tapiales", "Aldo Bonzi",
+        "General Rodriguez", "Marcos Paz"
+      ],
+      "incluir": [
+        "política municipal (ordenanzas, presupuesto, obras públicas)",
+        "seguridad local",
+        "transporte zonal (líneas de colectivo, trenes)",
+        "salud y educación local",
+        "eventos comunitarios relevantes"
+      ],
+      "fuentes": ["UNMEDIO", "VIVIELOESTE", "ANTICIPOS", "ZOESTE", "OESTENOTI", "PRIMPLANO", "DIOESTE", "LACIUDAD", "ITUZAINGODIGITAL", "ANDIGITAL"]
+    },
+    "DEPORTES": {
+      "prioridad": 5,
+      "descripcion": "Solo deportes con interés argentino",
+      "incluir": [
+        "selección argentina",
+        "fútbol argentino (Boca, River, etc.)",
+        "argentinos destacados en el exterior",
+        "automovilismo argentino (Colapinto)",
+        "tenis, básquet, rugby, vóley, hockey argentino"
+      ]
+    },
+    "CLIMA": {
+      "prioridad": 6,
+      "descripcion": "Pronóstico del tiempo para AMBA",
+      "incluir": ["pronóstico AMBA", "clima en Buenos Aires", "temperatura"]
+    }
+  },
+  "reglas_globales": {
+    "excluir_siempre": [
+      "farándula y celebridades",
+      "lifestyle, cocina, moda, belleza",
+      "contenido patrocinado o publinotas",
+      "religión y contenido vaticano",
+      "ciencia dudosa (cripto, IA revolucionaria)",
+      "idioma inglés (solo contenido en español)",
+      "política regional de países no-latinoamericanos"
+    ],
+    "maximo_por_fuente": {
+      "default": 2,
+      "TIER_CABLES": 3,
+      "TIER_ZO": 3,
+      "TIER_MAINSTREAM": 2,
+      "INFOBAE": 1
+    }
+  }
+}
