@@ -62,41 +62,47 @@ def _format_fecha(dt: datetime) -> str:
     return f"{_dia_semana(dt)} {dt.day}/{dt.month}/{dt.year}"
 
 
-def _claves_seccion(data: dict) -> dict[str, str]:
-    """Mapea claves internas a claves reales del JSON (display names)."""
+INTERNAL_SECTIONS = [
+    "NACIONALES", "PROVINCIAL_AMBA", "INTERNACIONALES",
+    "ZONA OESTE", "LOCALES", "DEPORTES", "VERIFICACION",
+    "CLIMA", "GENERAL",
+]
+
+def _claves_seccion(sections: dict) -> dict[str, str]:
+    """Mapea claves internas a las claves reales del JSON (display names).
+    Ej: PROVINCIAL_AMBA → 'PROVINCIAL / AMBA' si existe en el JSON."""
+    registry: dict[str, str] = {}
+    for sk in sections:
+        normalized = sk.upper().replace(" / ", "_").replace(" ", "_").replace("/", "_")
+        registry[normalized] = sk
     m = {}
-    for k in ["NACIONALES", "PROVINCIAL_AMBA", "INTERNACIONALES",
-              "ZONA OESTE", "LOCALES", "DEPORTES", "VERIFICACION",
-              "CLIMA", "GENERAL"]:
-        if k in data.get("sections", {}):
+    for k in INTERNAL_SECTIONS:
+        if k in sections:
             m[k] = k
+        elif k in registry:
+            m[k] = registry[k]
         else:
-            # Buscar por display name
-            for dk in data.get("sections", {}):
-                if dk.replace(" / ", "_").upper().replace(" ", "_") == k:
-                    m[k] = dk
-                    break
-            if k not in m:
-                m[k] = k
+            m[k] = k
     return m
 
 
 def _generar_cadena(data: dict) -> str:
     partes = []
-    claves = _claves_seccion(data)
-    for sec in ["NACIONALES", "PROVINCIAL_AMBA", "INTERNACIONALES", "ZONA OESTE", "VERIFICACION"]:
-        for a in data.get("sections", {}).get(claves[sec], [])[:2]:
+    sections = data.get("sections", {})
+    claves = _claves_seccion(sections)
+    for sec in ["NACIONALES", "INTERNACIONALES", "PROVINCIAL_AMBA"]:
+        arts = sections.get(claves.get(sec, sec), [])
+        for a in arts[:1]:
             t = (a.get("title") or "").strip()
             t = t.split(":", 1)[0] if ":" in t else t
             t = t.strip("\"'")
-            if t and len(t) > 20:
-                partes.append(t)
+            if t and len(t) > 15:
+                partes.append(_truncar(t, 80))
+            break
     if not partes:
         return ""
-    cadena = ", ".join(partes[:4])
-    if len(cadena) > 300:
-        cadena = cadena[:297].rsplit(" ", 1)[0] + "..."
-    return cadena
+    cadena = ", ".join(partes[:3])
+    return cadena[:297]
 
 
 def formatear(data: dict) -> str:
@@ -110,14 +116,15 @@ def formatear(data: dict) -> str:
     source_set = set()
     tiene_deportes_arg = False
     seen_sections: set[str] = set()
-    claves = _claves_seccion(data)
+    sections = data.get("sections", {})
+    claves = _claves_seccion(sections)
 
     for sec in SECTION_ORDER:
         sec_real = claves.get(sec, sec)
         if sec_real in seen_sections:
             continue
         seen_sections.add(sec_real)
-        articulos = data.get("sections", {}).get(sec_real, [])
+        articulos = sections.get(sec_real, [])
         if not articulos:
             continue
 
@@ -133,7 +140,7 @@ def formatear(data: dict) -> str:
 
         items.append(("section", sec, sec_real, articulos))
 
-    clima_arts = data.get("sections", {}).get(claves.get("CLIMA", "CLIMA"), [])
+    clima_arts = sections.get(claves.get("CLIMA", "CLIMA"), [])
     clima_line = ""
     if clima_arts:
         clima = clima_arts[0]

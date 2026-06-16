@@ -30,10 +30,14 @@ def format_date_es(dt: datetime) -> str:
 
 
 def load_token() -> str:
+    token = os.environ.get("TELEGRAM_TOKEN")
+    if token:
+        return token
     if not os.path.exists(TOKEN_PATH):
-        print("ERROR: No se encuentra token.txt")
+        print("ERROR: No se encuentra token.txt ni TELEGRAM_TOKEN env")
         print("Creá el archivo con tu token de Telegram Bot:")
         print(f"  echo 'TU_TOKEN' > {TOKEN_PATH}")
+        print("  export TELEGRAM_TOKEN='TU_TOKEN'")
         sys.exit(1)
     token = open(TOKEN_PATH).read().strip()
     if not token:
@@ -43,6 +47,9 @@ def load_token() -> str:
 
 
 def load_chat_id() -> str:
+    cid = os.environ.get("TELEGRAM_CHAT_ID")
+    if cid:
+        return cid
     if os.path.exists(CHAT_ID_PATH):
         return open(CHAT_ID_PATH).read().strip()
     return None
@@ -307,7 +314,34 @@ def git_push():
         print("  Podés pushear manualmente después.")
 
 
+def validar_pasquin(text: str) -> bool:
+    """Valida que el borrador tenga formato de pasquin antes de publicar."""
+    lines = text.strip().split("\n")
+    if len(lines) < 3:
+        print("ERROR: borrador.txt muy corto (menos de 3 líneas)")
+        return False
+    primera = lines[0]
+    if not primera.startswith("\U0001f4f0 INFORMATIVORAW"):
+        print(f"ERROR: borrador.txt no parece un pasquin (esperaba encabezado)")
+        print(f"  Primer línea: {primera[:60]}")
+        return False
+    tiene_secciones = any(
+        any(emoji in line for emoji in ["\U0001f1e6\U0001f1f7", "\U0001f310", "\U0001f4cd", "\u26bd", "\u2705"])
+        for line in lines
+    )
+    if not tiene_secciones:
+        print("ERROR: borrador.txt no contiene secciones con emojis")
+        return False
+    return True
+
+
 def main():
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Publica el pasquin en Telegram + archivo + GitHub Pages")
+    parser.add_argument("--preview", action="store_true", help="Solo muestra el borrador sin publicar")
+    args = parser.parse_args()
+
     # --- 1) Leer borrador ---
     if not os.path.exists(BORRADOR_PATH):
         print("ERROR: No se encuentra borrador.txt")
@@ -320,6 +354,16 @@ def main():
     if not pasquin_text:
         print("ERROR: borrador.txt está vacío")
         sys.exit(1)
+
+    if not validar_pasquin(pasquin_text):
+        respuesta = input("  ¿Publicar de todas formas? [s/N]: ")
+        if respuesta.lower() != "s":
+            sys.exit(1)
+
+    if args.preview:
+        print(pasquin_text)
+        print(f"\n--- {len(pasquin_text)} caracteres ---")
+        return
 
     today = datetime.now()
     date_str = format_date_es(today)
