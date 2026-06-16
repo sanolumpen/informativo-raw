@@ -20,8 +20,10 @@ pasquin_data.py (única fuente)
 
 ### Paso 1 — Obtener disponibles
 
+Usá el valor N que especificó el usuario. Si no especificó N, usá 20.
+
 ```bash
-python3 ~/noticias-raw/pasquin_data.py --limit 20 --json --section-names specific 2>/dev/null
+python3 ~/noticias-raw/pasquin_data.py --limit N --json --section-names specific 2>/dev/null
 ```
 
 El flag `2>/dev/null` filtra logs de progreso (stderr).  
@@ -50,33 +52,31 @@ El JSON de salida tiene esta estructura:
 }
 ```
 
-### Paso 2 — Mostrar lista al usuario
+### Paso 2 — Mostrar lista al usuario (OBLIGATORIO)
 
-Parsear el JSON y mostrar por sección:
+Parseá el JSON y mostrá los artículos agrupados por sección con este formato exacto:
 
 ```
-📊 Noticias disponibles (20):
+📊 Noticias disponibles (N):
 
 🇦🇷 NACIONALES
   [102] Senado debate Ley Hojarasca (NA)
   [105] Gobierno activa espadas para salvar a Adorni (LANACION)
-  [108] Pablo Moyano pide pelear en la calle (NA)
 
 🌐 INTERNACIONALES
   [201] Keiko Fujimori aumenta ventaja (BBCMUNDO)
-  [205] Bolivia alista allanamientos (PRENSALATINA)
 
 📍 ZONA OESTE
   [301] 120 mil personas en fiesta patronal (ZOESTE)
 ```
 
 Reglas:
-- ID numérico entre corchetes
+- ID numérico entre corchetes: `[ID]`
 - Título tal cual de la BD (recortar si muy largo con `...`)
-- Fuente entre paréntesis
-- Emoji de sección según `SECTION_EMOJIS` del JSON (o los fijos abajo)
-- Si una sección no tiene artículos, omitirla
-- Si `preview` existe, se puede mostrar opcionalmente en gris
+- Fuente entre paréntesis: `(FUENTE)`
+- Emoji de sección según corresponda (🇦🇷, 🌐, 📍, ⚽, ✅, 🌤️, 📰)
+- Si una sección no tiene artículos, no la incluyas
+- Mostrá TODAS las secciones que tengan artículos
 
 ### Paso 3 — Recibir selección
 
