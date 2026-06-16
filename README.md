@@ -4,6 +4,8 @@ Genera y publica un pasquin de noticias en formato Telegram.
 
 ## Flujo de trabajo
 
+### Publicación completa (Telegram + archivo + GitHub Pages)
+
 ```bash
 # 1. Generar + formatear pasquin desde la base de noticias-raw
 python3 ../noticias-raw/pasquin_data.py --limit 15 --json --section-names specific \
@@ -14,6 +16,19 @@ python3 ../noticias-raw/pasquin_data.py --limit 15 --json --section-names specif
 # 3. Publicar a Telegram + archivar + GitHub Pages
 python3 publish.py
 ```
+
+### Solo Telegram (formato ANCLA / cadena informativa)
+
+Usado cuando el agente redacta manualmente el pasquin y solo quiere enviarlo al canal:
+
+```bash
+# 1. Escribir el pasquin en borrador.txt (formato ANCLA)
+# 2. Publicar solo a Telegram (sin archivar ni git push)
+python3 publish.py --solo-telegram
+```
+
+El flag `--solo-telegram` salta: archivo histórico, GitHub Pages, git push y limpieza del borrador.  
+El borrador se conserva para poder re-publicar si es necesario.
 
 ## Formateador (`formatear_pasquin.py`)
 
