@@ -315,24 +315,38 @@ def git_push():
 
 
 def validar_pasquin(text: str) -> bool:
-    """Valida que el borrador tenga formato de pasquin antes de publicar."""
+    """Valida que el borrador tenga formato de pasquin antes de publicar.
+    Acepta dos formatos:
+      - Telegram clásico: arranca con 📰 INFORMATIVORAW
+      - ANCLA/cadena: arranca con ╔═══ ... PASQUIN
+    """
     lines = text.strip().split("\n")
     if len(lines) < 3:
         print("ERROR: borrador.txt muy corto (menos de 3 líneas)")
         return False
     primera = lines[0]
-    if not primera.startswith("\U0001f4f0 INFORMATIVORAW"):
-        print(f"ERROR: borrador.txt no parece un pasquin (esperaba encabezado)")
-        print(f"  Primer línea: {primera[:60]}")
-        return False
-    tiene_secciones = any(
-        any(emoji in line for emoji in ["\U0001f1e6\U0001f1f7", "\U0001f310", "\U0001f4cd", "\u26bd", "\u2705"])
-        for line in lines
-    )
-    if not tiene_secciones:
-        print("ERROR: borrador.txt no contiene secciones con emojis")
-        return False
-    return True
+
+    # Formato ANCLA / cadena informativa
+    # Buscar "PASQUIN" en las primeras 3 líneas (el borde ╔ está en línea 1, el título en línea 2)
+    if primera.startswith("╔") and any("PASQUIN" in l for l in lines[:3]):
+        print("  ✓ Detectado formato ANCLA / cadena informativa")
+        return True
+
+    # Formato Telegram clásico
+    if primera.startswith("\U0001f4f0 INFORMATIVORAW"):
+        tiene_secciones = any(
+            any(emoji in line for emoji in ["\U0001f1e6\U0001f1f7", "\U0001f310", "\U0001f4cd", "\u26bd", "\u2705"])
+            for line in lines
+        )
+        if not tiene_secciones:
+            print("ERROR: borrador.txt no contiene secciones con emojis")
+            return False
+        return True
+
+    print(f"ERROR: borrador.txt no parece un pasquin (formato no reconocido)")
+    print(f"  Primer línea: {primera[:80]}")
+    print(f"  Formatos aceptados: 📰 INFORMATIVORAW | ╔═══ ... PASQUIN")
+    return False
 
 
 def main():
@@ -340,6 +354,8 @@ def main():
 
     parser = argparse.ArgumentParser(description="Publica el pasquin en Telegram + archivo + GitHub Pages")
     parser.add_argument("--preview", action="store_true", help="Solo muestra el borrador sin publicar")
+    parser.add_argument("--solo-telegram", action="store_true",
+                        help="Solo publica en Telegram, sin archivar ni GitHub Pages ni git push")
     args = parser.parse_args()
 
     # --- 1) Leer borrador ---
@@ -392,21 +408,26 @@ def main():
             sys.exit(1)
 
     # --- 3) Archivar ---
-    archive_pasquin(pasquin_text, date_str)
+    if not args.solo_telegram:
+        archive_pasquin(pasquin_text, date_str)
 
     # --- 4) GitHub Pages ---
-    update_docs(pasquin_text, date_str)
-    update_archive_index()
+    if not args.solo_telegram:
+        update_docs(pasquin_text, date_str)
+        update_archive_index()
 
     # --- 5) Git push ---
-    git_push()
+    if not args.solo_telegram:
+        git_push()
 
     # --- 6) Limpiar borrador ---
-    with open(BORRADOR_PATH, "w", encoding="utf-8") as f:
-        f.write("")
-    print("✓ borrador.txt limpiado (listo para la próxima)")
-
-    print(f"\n✔ Publicación completada — {date_iso}")
+    if not args.solo_telegram:
+        with open(BORRADOR_PATH, "w", encoding="utf-8") as f:
+            f.write("")
+        print("✓ borrador.txt limpiado (listo para la próxima)")
+        print(f"\n✔ Publicación completa — {date_iso}")
+    else:
+        print(f"\n✔ Publicado solo en Telegram. El borrador queda en borrador.txt para re-publish.")
 
 
 if __name__ == "__main__":
