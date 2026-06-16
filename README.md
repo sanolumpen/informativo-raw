@@ -17,13 +17,27 @@ python3 ../noticias-raw/pasquin_data.py --limit 15 --json --section-names specif
 python3 publish.py
 ```
 
-### Solo Telegram (formato ANCLA / cadena informativa)
+### Con `/pasquin` (interactivo, vía OpenCode)
 
-Usado cuando el agente redacta manualmente el pasquin y solo quiere enviarlo al canal:
+El comando `/pasquin` ejecuta el flujo completo con selección del usuario:
+
+```
+/pasquin N=20
+  ↓
+1. Muestra lista de noticias disponibles con IDs por sección
+2. Elegís qué IDs incluir ("todos", "102,105,201", "solo nacionales")
+3. Genera el pasquin con solo esos IDs
+4. Te muestra el resultado
+5. Espera tu aprobación ("publicálo") para enviar a Telegram
+```
+
+Definido en `opencode.json`. Usa `pasquin_data.py` como única fuente de datos
+(evita consultas divergentes que antes deformaban el resultado).
+
+### Solo Telegram
 
 ```bash
-# 1. Escribir el pasquin en borrador.txt (formato ANCLA)
-# 2. Publicar solo a Telegram (sin archivar ni git push)
+# Publicar solo a Telegram (sin archivar ni git push)
 python3 publish.py --solo-telegram
 ```
 

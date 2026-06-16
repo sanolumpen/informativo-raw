@@ -335,7 +335,15 @@ def validar_pasquin(text: str) -> bool:
     # Formato Telegram clásico
     if primera.startswith("\U0001f4f0 INFORMATIVORAW"):
         tiene_secciones = any(
-            any(emoji in line for emoji in ["\U0001f1e6\U0001f1f7", "\U0001f310", "\U0001f4cd", "\u26bd", "\u2705"])
+            any(emoji in line for emoji in [
+                "\U0001f1e6\U0001f1f7",  # 🇦🇷 NACIONALES
+                "\U0001f310",            # 🌐 INTERNACIONALES
+                "\U0001f4cd",            # 📍 PROVINCIAL / ZONA OESTE / LOCALES
+                "\u26bd",                # ⚽ DEPORTES
+                "\u2705",                # ✅ VERIFICACION
+                "\U0001f324\ufe0f",      # 🌤️ CLIMA
+                "\U0001f4f0",            # 📰 GENERAL
+            ])
             for line in lines
         )
         if not tiene_secciones:
