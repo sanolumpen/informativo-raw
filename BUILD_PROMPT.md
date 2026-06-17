@@ -18,6 +18,16 @@ pasquin_data.py (única fuente)
 
 ## Paso a paso
 
+### Paso 0 — Cargar skills relevantes
+
+Antes de consultar la BD, cargá estas skills con `skill()`:
+
+| Skill | Para qué |
+|---|---|
+| `noticias-anti-tautologia` | Evitar titulares obvios o circulares al curar |
+| `ecosistema-medios-arg` | Entender línea editorial de cada fuente al seleccionar |
+| `noticias-fuentes` | Saber qué fuentes priorizar y su cobertura |
+
 ### Paso 1 — Obtener disponibles
 
 Usá el valor N que especificó el usuario. Si no especificó N, usá 20.
@@ -164,6 +174,7 @@ cd ~/informativo-raw && python3 publish.py --solo-telegram
 3. **No modificar el pipeline:** Si el usuario no gusta el resultado, regenerar con otros IDs. No editar el output de `formatear_pasquin.py` a mano.
 4. **No guardar en borrador.txt hasta publicar:** El archivo `borrador.txt` solo se toca en el paso 6.
 5. **No mezclar formatos:** El pasquin generado por el pipeline ya viene en formato Telegram correcto. No agregar caracteres ANCLA.
+6. **Cargar skills:** Antes de consultar la BD, cargá `noticias-anti-tautologia`, `ecosistema-medios-arg` y `noticias-fuentes`.
 
 ## Solución de problemas
 
